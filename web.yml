@@ -1,0 +1,44 @@
+apiVersion: app/v1
+kind: Deployment
+metadata:
+  labels:
+    run: web
+  name: web
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: web
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        run: web
+    spec:
+      containers:
+        - name: web
+          image: docker.io/gintelecom/ginflix
+          port:
+            - containerPort: 80
+          env:
+            - name: DB_HOST
+              value: "database-service.my-application.svc.cluster.local"
+            - name: DB_NAME
+              value: ginflix
+            - name: DB_PASSWORD
+              value: tonic
+            - name: DB_USER
+              value: gin
+            - name: DJANGO_SUPERUSER_EMAIL
+              value: "admin@ginflix.com"
+            - name: DJANGO_SUPERUSER_PASSWORD
+              value: "admin"
+            - name: GUNICORN_ENABLE
+              value: "false"
+            - name: SECRET_KEY
+              value: "secret"
+            - name: ALLOWED_HOST
+              value: ...
+      restartPolicy: Always

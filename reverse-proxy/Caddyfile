@@ -1,0 +1,8 @@
+http://172.18.0.5:80 {
+    handle_path /stream/* {
+        reverse_proxy http://172.18.0.3:30010
+    }
+    handle {
+        reverse_proxy http://172.18.0.3:30011
+    }
+}
