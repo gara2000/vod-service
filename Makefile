@@ -1,5 +1,6 @@
 CLUSTER_NAME=ginflix
 PORT=3000
+VID_NAME=stock_analysis.mp4
 
 cluster-create:
 	- kind create cluster --name ${CLUSTER_NAME} --config kind-config.yml --image="kindest/node:v1.23.10@sha256:f047448af6a656fae7bc909e2fab360c18c487ef3edc93f06d78cdfd864b2d12"
@@ -36,13 +37,10 @@ clean-web:
 	- kubectl delete -f volumes/web.yml
 	- kubectl delete -f services/web.yml
 
-start: database streamer web
-stop: clean-database clean-streamer clean-web
-
 caddy:
 	{ \
 		cd reverse-proxy ; \
-		docker compose up ; \
+		docker compose up -d ; \
 	}
 down-caddy:
 	{\
@@ -54,3 +52,11 @@ clean-caddy:
 		cd reverse-proxy ; \
 		docker compose down --rmi all ; \
 	}
+
+STREAMER:=$(shell kubectl get pods -l run=streamer | awk -F' ' 'NR==2 {print $$1}')
+copy:
+	kubectl cp videos/${VID_NAME} $(STREAMER):/var/www/html/stock.mp4
+	kubectl exec -ti $(STREAMER) -- ls /var/www/html/
+
+start: database streamer web caddy
+stop: clean-database clean-streamer clean-web clean-caddy

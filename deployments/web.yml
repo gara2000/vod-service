@@ -38,4 +38,5 @@ spec:
             - name: SECRET_KEY
               value: "secret"
             - name: ALLOWED_HOST
-              value: 172.18.0.5
+              value: localhost
+              # value: 137.194.210.200
