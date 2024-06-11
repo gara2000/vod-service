@@ -1,5 +1,4 @@
 CLUSTER_NAME=ginflix
-PORT=3000
 VID_NAME=stock_analysis.mp4
 
 cluster-create:
@@ -14,7 +13,7 @@ database:
 	kubectl apply -f volumes/database.yml
 	kubectl apply -f deployments/database.yml
 	kubectl apply -f services/database.yml
-clean-database:
+_database:
 	- kubectl delete -f deployments/database.yml
 	- kubectl delete -f volumes/database.yml
 	- kubectl delete -f services/database.yml
@@ -23,7 +22,7 @@ streamer:
 	kubectl apply -f volumes/streamer.yml
 	kubectl apply -f deployments/streamer.yml
 	kubectl apply -f services/streamer.yml
-clean-streamer:
+_streamer:
 	- kubectl delete -f deployments/streamer.yml
 	- kubectl delete -f volumes/streamer.yml
 	- kubectl delete -f services/streamer.yml
@@ -31,7 +30,7 @@ clean-streamer:
 web:
 	kubectl apply -f deployments/web.yml
 	kubectl apply -f services/web.yml
-clean-web:
+_web:
 	- kubectl delete -f deployments/web.yml
 	- kubectl delete -f services/web.yml
 
@@ -45,7 +44,7 @@ down-caddy:
 		cd reverse-proxy ; \
 		docker compose down ; \
 	}
-clean-caddy:
+_caddy:
 	{\
 		cd reverse-proxy ; \
 		docker compose down --rmi all ; \
@@ -57,4 +56,4 @@ copy:
 	kubectl exec -ti $(STREAMER) -- ls /var/www/html/
 
 start: database streamer web caddy
-stop: clean-database clean-streamer clean-web clean-caddy
+stop: _database _streamer _web _caddy
