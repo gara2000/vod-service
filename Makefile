@@ -29,12 +29,10 @@ clean-streamer:
 	- kubectl delete -f services/streamer.yml
 
 web:
-	- kubectl apply -f volumes/web.yml
 	kubectl apply -f deployments/web.yml
 	kubectl apply -f services/web.yml
 clean-web:
 	- kubectl delete -f deployments/web.yml
-	- kubectl delete -f volumes/web.yml
 	- kubectl delete -f services/web.yml
 
 caddy:

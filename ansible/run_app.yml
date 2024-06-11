@@ -6,21 +6,27 @@
 
   tasks:
     - name: Get the GitHub repository
-      command: |
+      shell: |
         cd ~
         git clone https://github.com/gara2000/vod-service.git
     
     - name: Create the K8s cluster
-      command: |
+      shell: |
         cd ~/vod-service
-        make create
+        make cluster-create
+
+    - name: Stop the application if it was previously running
+      shell: |
+        cd ~/vod-service
+        make stop
+      ignore_errors: true
 
     - name: Start the application
-      command: |
+      shell: |
         cd ~/vod-service
         make start
 
     - name: Copy the video inside the streamer
-      command: |
+      shell: |
         cd ~/vod-service
         make copy
