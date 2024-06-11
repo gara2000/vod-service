@@ -84,3 +84,4 @@ The Caddy reverse proxy serves as the gateway for external access to the applica
 ## References
 - [Kubernetes training](https://gitlab.telecom-paris.fr/jean-louis.rougier/k8s-hands-on-training)
 - [Kubernetes Up & Running book](https://www.oreilly.com/library/view/kubernetes-up-and/9781098110192/)
+- [Web application Docker image](https://hub.docker.com/r/gintelecom/ginflix)
