@@ -6,7 +6,7 @@ cluster-create:
 	- kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.1/manifests/tigera-operator.yaml
 	- kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.1/manifests/custom-resources.yaml
 
-clean:
+cluster-delete:
 	kind delete clusters ${CLUSTER_NAME}
 
 database:
@@ -57,3 +57,5 @@ copy:
 
 start: database streamer web caddy
 stop: _database _streamer _web _caddy
+
+clean: stop cluster-delete
