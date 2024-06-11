@@ -45,6 +45,7 @@ make copy
 - In the Link entry write: `http://localhost/stream/stock.mp4`
 - Fill the other entries with arbitrary information and press `Save`
 - Now in the `http://localhost/` page you should see the new video you have just added, and clicking on it should start the video streaming
+![Home page](./assets/ginflix.png)
 #### Cleaning
 ```bash
 make clean
