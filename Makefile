@@ -9,10 +9,14 @@ cluster-create:
 cluster-delete:
 	kind delete clusters ${CLUSTER_NAME}
 
-load-balancer:
+loadbalancer:
 	kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.7/config/manifests/metallb-native.yaml
-	kubect apply -f k8s-loadbalancer/iprange.yml
-	kubect apply -f k8s-loadbalancer/l2advertisement.yml
+	kubectl apply -f k8s-loadbalancer/iprange.yml
+	kubectl apply -f k8s-loadbalancer/l2advertisement.yml
+
+_loadbalancer:
+	- kubectl delete -f k8s-loadbalancer/iprange.yml
+	- kubectl delete -f k8s-loadbalancer/l2advertisement.yml
 
 database:
 	kubectl apply -f k8s-volumes/database.yml
@@ -60,7 +64,7 @@ copy:
 	kubectl cp videos/${VID_NAME} $(STREAMER):/var/www/html/stock.mp4
 	kubectl exec -ti $(STREAMER) -- ls /var/www/html/
 
-start: database streamer web caddy
-stop: _database _streamer _web _caddy
+start: loadbalancer database streamer web caddy
+stop: _loadbalancer _database _streamer _web _caddy
 
 clean: stop cluster-delete
