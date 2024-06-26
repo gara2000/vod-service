@@ -95,10 +95,10 @@ The Caddy reverse proxy serves as the gateway for external access to the applica
 - **Communication**: The web server communicates with the PostgreSQL database server through the Kubernetes service. This allows the web server to perform CRUD operations on the database, such as adding video metadata or retrieving information about available videos.
 ### 3.2- Django Web Server
 - **Implementation**: The web server is implemented as a Django application running within a Docker container. The Docker container is then deployed as a Kubernetes deployment, ensuring that the web server can be easily managed and scaled.
-- **Deployment**: A Kubernetes service of type NodePort is used to expose the web server to external traffic. This service allows users to access the web interface of the video on demand application from outside the Kubernetes cluster.
+- **Deployment**: A Kubernetes service of type MetalLB is used to expose the web server to external traffic, and to load balance the traffic among all the web server replicas. This service allows users to access the web interface of the video on demand application from outside the Kubernetes cluster.
 ### 3.3- Nginx Streaming Server
 - **Implementation**: The streamer server is implemented as an Nginx application running withing a Docker container, that is then deployed as a Kubernetes deployment. A configMap is used in order to pass the default website configuration to the Nginx container
-- **Deployment**: A Kubernetes service of type NodePort is used to expose the streamer server to external traffic. This service allows users to access the streaming functionality of the application from outside the Kubernetes cluster.
+- **Deployment**: A Kubernetes service of type MetalLB is used to expose the streamer server to external traffic and to load balance the traffic among all the streamer servers. This service allows users to access the streaming functionality of the application from outside the Kubernetes cluster.
 - **Communication**: The streamer server does not directly communicate with the other servers. Instead, it serves video content to users who request it through the web server. Users interact with the web interface provided by the web server, which in turn communicates with the streamer server to stream videos.
 ### 3.4- Caddy Reverse Proxy
 - **Implementation**: The reverse proxy server is implemented as a Caddy server running within a Docker container. The Caddy server is configured to route incoming requests to the appropriate backend servers based on the request path.
