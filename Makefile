@@ -9,30 +9,35 @@ cluster-create:
 cluster-delete:
 	kind delete clusters ${CLUSTER_NAME}
 
+load-balancer:
+	kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.7/config/manifests/metallb-native.yaml
+	kubect apply -f k8s-loadbalancer/iprange.yml
+	kubect apply -f k8s-loadbalancer/l2advertisement.yml
+
 database:
-	kubectl apply -f volumes/database.yml
-	kubectl apply -f deployments/database.yml
-	kubectl apply -f services/database.yml
+	kubectl apply -f k8s-volumes/database.yml
+	kubectl apply -f k8s-deployments/database.yml
+	kubectl apply -f k8s-services/database.yml
 _database:
-	- kubectl delete -f deployments/database.yml
-	- kubectl delete -f volumes/database.yml
-	- kubectl delete -f services/database.yml
+	- kubectl delete -f k8s-deployments/database.yml
+	- kubectl delete -f k8s-volumes/database.yml
+	- kubectl delete -f k8s-services/database.yml
 
 streamer:
-	kubectl apply -f volumes/streamer.yml
-	kubectl apply -f deployments/streamer.yml
-	kubectl apply -f services/streamer.yml
+	kubectl apply -f k8s-volumes/streamer.yml
+	kubectl apply -f k8s-deployments/streamer.yml
+	kubectl apply -f k8s-services/streamer.yml
 _streamer:
-	- kubectl delete -f deployments/streamer.yml
-	- kubectl delete -f volumes/streamer.yml
-	- kubectl delete -f services/streamer.yml
+	- kubectl delete -f k8s-deployments/streamer.yml
+	- kubectl delete -f k8s-volumes/streamer.yml
+	- kubectl delete -f k8s-services/streamer.yml
 
 web:
-	kubectl apply -f deployments/web.yml
-	kubectl apply -f services/web.yml
+	kubectl apply -f k8s-deployments/web.yml
+	kubectl apply -f k8s-services/web.yml
 _web:
-	- kubectl delete -f deployments/web.yml
-	- kubectl delete -f services/web.yml
+	- kubectl delete -f k8s-deployments/web.yml
+	- kubectl delete -f k8s-services/web.yml
 
 caddy:
 	{ \

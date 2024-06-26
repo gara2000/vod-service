@@ -4,10 +4,11 @@ kind: Service
 metadata:
   name: streamer-service
 spec:
-  type: NodePort
+  # type: NodePort
+  type: LoadBalancer
   selector:
     run: streamer
   ports:
     - port: 80
       targetPort: 80
-      nodePort: 30010
+      # nodePort: 30010
