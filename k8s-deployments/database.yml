@@ -27,9 +27,9 @@ spec:
             - name: POSTGRES_DB
               value: ginflix
             - name: POSTGRES_PASSWORD
-              value: "tonic"
+              value: tonic
             - name: POSTGRES_USER
-              value: "gin"
+              value: gin
           volumeMounts:
             - mountPath: /var/lib/postgres/data
               name: db-volume
